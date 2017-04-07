@@ -1,12 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html class="no-js" lang="" ng-app="sajDonOrtega">
   <head>
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>snagajob</title>
+    <title>Don Ortega - snagajob</title>
 
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <!-- Place favicon.ico in the root directory -->
 
     <!-- build:css styles/vendor.css -->
@@ -17,59 +16,124 @@
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
-    
+
     <!-- build:js scripts/vendor/modernizr.js -->
     <script src="/bower_components/modernizr/modernizr.js"></script>
     <!-- endbuild -->
   </head>
-  <body>
-    <!--[if IE]>
-      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-    
+  <body ng-controller="DashboardCtrl as ctrl" ng-init="ctrl.init();">
     <div class="container">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li class="active">
-            <a href="#">Home</a>
-          </li>
-          <li>
-            <a href="#">About</a>
-          </li>
-          <li>
-            <a href="#">Contact</a>
-          </li>
-        </ul>
-        <h3 class="text-muted">snagajob</h3>
-      </div>
+      <h1>Job Applicant Database 1.0</h1>
+      <p class="lead">Sort/Filter here</p>
 
-      <div class="jumbotron">
-        <h1>'Allo, 'Allo!</h1>
-        <p class="lead">Always a pleasure scaffolding your apps.</p>
-        <p><a class="btn btn-lg btn-success" href="#">Splendid!</a></p>
-      </div>
-
-      <div class="row marketing">
-        <div class="col-lg-6">
-          <h4>HTML5 Boilerplate</h4>
-          <p>HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.</p>
-
-          <h4>Sass</h4>
-          <p>Sass is the most mature, stable, and powerful professional grade CSS extension language in the world.</p>
-
-          <h4>Bootstrap</h4>
-          <p>Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.</p>
-
-          <h4>Modernizr</h4>
-          <p>Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites.</p>
-        </div>
-      </div>
-
-      <div class="footer">
-        <p>♥ from the Yeoman team</p>
-      </div>
+      <ul class="list-group">
+        <li ng-repeat="item in ctrl.appList" class="list-group-item">
+          <div class="row">
+            <div class="hidden-xs col-sm-1 col-md-1 col-lg-1 col-flag">
+              <span ng-class="{'glyphicon glyphicon-flag' : true, 'text-danger' : item.isFlagged}" aria-hidden="true" ng-click="ctrl.toggleFlag(item.id);"></span>
+            </div>
+            <div class="col-xs-10 col-sm-4 col-md-4 col-lg-4">
+              <h4 ng-cloak><strong>{{ item.name }}</strong></h4>
+              <p>
+                <a href ng-cloak ng-click="item.isCollapsed = !item.isCollapsed">
+                  <span ng-if="item.isCollapsed">More</span>
+                  <span ng-if="!item.isCollapsed">Less</span> details
+                  <span ng-class="{'glyphicon' : true, 'glyphicon-triangle-bottom' : item.isCollapsed, 'glyphicon-triangle-top' : !item.isCollapsed}"></span></a>
+              </p>
+            </div>
+            <div class="col-xs-2 hidden-sm hidden-md hidden-lg col-flag">
+              <span ng-class="{'glyphicon glyphicon-flag' : true, 'text-danger' : item.isFlagged}" aria-hidden="true" ng-click="ctrl.toggleFlag(item.id);"></span>
+            </div>
+            <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+              <h4 ng-cloak><em>{{ item.position }}</em></h4>
+              <div ng-cloak uib-collapse="item.isCollapsed">
+                <ul class="list-unstyled">
+                  <li>
+                    <p>
+                      <strong>Date Applied:</strong>
+                      <span ng-if="item.applied">{{ item.applied }}</span>
+                      <span ng-if="!item.applied">Date is missing</span>
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      <strong>Experience:</strong>
+                      <span ng-if="item.experience">{{ item.experience }} year<span ng-if="item.experience !== 1">s</span>
+                      <span ng-if="!item.experience">No experience was given.</span>
+                    </p>
+                  </li>
+                  <li>
+                    <p><strong>Availability:</strong></p>
+                    <table ng-if="item.availability" class="table table-bordered visible-xs">
+                      <tr>
+                        <td class="active">Mon</td>
+                        <td ng-bind="item.availability.M"></td>
+                      </tr>
+                      <tr>
+                        <td class="active">Tue</td>
+                        <td ng-bind="item.availability.T"></td>
+                      </tr>
+                      <tr>
+                        <td class="active">Wed</td>
+                        <td ng-bind="item.availability.W"></td>
+                      </tr>
+                      <tr>
+                        <td class="active">Thu</td>
+                        <td ng-bind="item.availability.Th"></td>
+                      </tr>
+                      <tr>
+                        <td class="active">Fri</td>
+                        <td ng-bind="item.availability.F"></td>
+                      </tr>
+                      <tr>
+                        <td class="active">Sat</td>
+                        <td ng-bind="item.availability.S"></td>
+                      </tr>
+                      <tr>
+                        <td class="active">Sun</td>
+                        <td ng-bind="item.availability.Su"></td>
+                      </tr>
+                    </table>
+                    <table ng-if="item.availability" class="table table-bordered visible-sm visible-md visible-lg">
+                      <tr>
+                        <th class="active">Mon</th>
+                        <th class="active">Tue</th>
+                        <th class="active">Wed</th>
+                        <th class="active">Thu</th>
+                        <th class="active">Fri</th>
+                        <th class="active">Sat</th>
+                        <th class="active">Sun</th>
+                      </tr>
+                      <tr>
+                        <td ng-bind="item.availability.M"></td>
+                        <td ng-bind="item.availability.T"></td>
+                        <td ng-bind="item.availability.W"></td>
+                        <td ng-bind="item.availability.Th"></td>
+                        <td ng-bind="item.availability.F"></td>
+                        <td ng-bind="item.availability.S"></td>
+                        <td ng-bind="item.availability.Su"></td>
+                      </tr>
+                    </table>
+                    <p ng-if="!item.availability">No availability was given.</p>
+                  </li>
+                  <li>
+                    <p><strong>Questions:</strong></p>
+                    <ul ng-if="item.questions">
+                      <li ng-repeat="question in item.questions">
+                        <p><strong ng-bind="question.text"></strong></p>
+                        <p ng-bind="question.answer"></p>
+                      </li>
+                    </ul>
+                    <p ng-if="!item.questions">No questions were answered.</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
-    
+
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
@@ -84,9 +148,13 @@
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/modernizr/modernizr.js"></script>
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="/bower_components/angular-touch/angular-touch.js"></script>
+    <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
-    
+
     <!-- build:js scripts/plugins.js -->
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix.js"></script>
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
@@ -101,9 +169,11 @@
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
     <!-- endbuild -->
-    
+
     <!-- build:js scripts/main.js -->
     <script src="scripts/main.js"></script>
+    <script src="scripts/controllers/dashboard.js"></script>
+    <script src="scripts/services/database.js"></script>
     <!-- endbuild -->
   </body>
 </html>
