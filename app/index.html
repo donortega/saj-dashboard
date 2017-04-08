@@ -38,11 +38,54 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
           <h4><strong>Filter</strong></h4>
+          <ul class="list-unstyled">
+            <li>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" ng-click="ctrl.toggleFilter('isFlagged');" ng-checked="ctrl.filters.isFlagged"> Flagged
+                </label>
+              </div>
+            </li>
+            <li>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" ng-model="ctrl.positionChecked;"> Position
+                </label>
+                <select class="form-control visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block width-auto" ng-disabled="!ctrl.positionChecked" ng-model="ctrl.filters.position" ng-options="item.position as item.position for item in ctrl.appList | orderBy: 'position' | unique: 'position'"></select>
+              </div>
+            </li>
+            <li>
+              <p>Availability</p>
+              <p>
+                <label class="checkbox-inline">
+                  <input type="checkbox" ng-click="ctrl.toggleFilter('availability', 'M');" ng-checked="ctrl.filters.availability.M"> M
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox"> T
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox"> W
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox"> Th
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox"> F
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox"> S
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox"> Su
+                </label>
+              </p>
+            </li>
+          </ul>
         </div>
       </div>
 
       <ul class="list-group">
-        <li ng-repeat="item in ctrl.appList | orderBy: ctrl.sortBy" class="list-group-item">
+        <li ng-repeat="item in ctrl.appList | orderBy: ctrl.sortBy | filter: ctrl.filters" class="list-group-item">
           <div class="row">
             <div class="hidden-xs col-sm-1 col-md-1 col-lg-1 col-flag">
               <span ng-class="{'glyphicon glyphicon-flag' : true, 'text-danger' : item.isFlagged}" aria-hidden="true" ng-click="ctrl.toggleFlag(item.id);"></span>
@@ -167,6 +210,7 @@
     <script src="/bower_components/angular-animate/angular-animate.js"></script>
     <script src="/bower_components/angular-touch/angular-touch.js"></script>
     <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="/bower_components/angular-filter/dist/angular-filter.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

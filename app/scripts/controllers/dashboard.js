@@ -1,8 +1,11 @@
-app.controller('DashboardCtrl', ['database', function(database) {
+app.controller('DashboardCtrl', ['$scope', 'database', function($scope, database) {
   var self = this;
   const PREFIX = 'sajDO-';
 
   self.sortBy = 'name';
+  self.filters = {
+    'availability' : {}
+  };
 
   self.init = () => {
     database.getList().then((data) => {
@@ -41,4 +44,34 @@ app.controller('DashboardCtrl', ['database', function(database) {
       }
     });
   };
+
+  // handle filters
+  self.toggleFilter = (filterName, filterSubName) => {
+    if (!filterSubName) {
+      if (typeof self.filters[filterName] === 'undefined') {
+        self.filters[filterName] = true;
+      } else {
+        delete self.filters[filterName];
+      }
+    } else {
+      if (typeof self.filters[filterName][filterSubName] === 'undefined') {
+        self.filters[filterName][filterSubName] = true;
+      } else {
+        delete self.filters[filterName][filterSubName];
+      }
+    }
+  };
+
+  // reset Position filter dropdown when unchecked
+  $scope.$watch(
+    () => {
+      return self.positionChecked;
+    },
+    (newVal, oldVal) => {
+      if (!newVal) {
+        delete self.filters.position;
+      }
+    },
+    true
+  );
 }]);
