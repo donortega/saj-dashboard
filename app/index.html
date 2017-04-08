@@ -25,9 +25,24 @@
     <div class="container">
       <h1>Job Applicant Database 1.0</h1>
       <p class="lead">Sort/Filter here</p>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <h4><strong>Sort By</strong></h4>
+          <ul class="list-unstyled">
+            <li><a href ng-click="ctrl.sortBy = 'name'" ng-class="{'link-disable' : ctrl.sortBy === 'name'}">Name</a></li>
+            <li><a href ng-click="ctrl.sortBy = 'applied'" ng-class="{'link-disable' : ctrl.sortBy === 'applied'}">Date Applied</a></li>
+            <li><a href ng-click="ctrl.sortBy = 'position'" ng-class="{'link-disable' : ctrl.sortBy === 'position'}">Position Applied For</a></li>
+            <li><a href ng-click="ctrl.sortBy = 'experience'" ng-class="{'link-disable' : ctrl.sortBy === 'experience'}">Experience</a></li>
+            <li><a href ng-click="ctrl.sortBy = '-isFlagged'" ng-class="{'link-disable' : ctrl.sortBy === '-isFlagged'}">Flagged</a></li>
+          </ul>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <h4><strong>Filter</strong></h4>
+        </div>
+      </div>
 
       <ul class="list-group">
-        <li ng-repeat="item in ctrl.appList" class="list-group-item">
+        <li ng-repeat="item in ctrl.appList | orderBy: ctrl.sortBy" class="list-group-item">
           <div class="row">
             <div class="hidden-xs col-sm-1 col-md-1 col-lg-1 col-flag">
               <span ng-class="{'glyphicon glyphicon-flag' : true, 'text-danger' : item.isFlagged}" aria-hidden="true" ng-click="ctrl.toggleFlag(item.id);"></span>

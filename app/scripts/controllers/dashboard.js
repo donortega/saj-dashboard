@@ -2,6 +2,8 @@ app.controller('DashboardCtrl', ['database', function(database) {
   var self = this;
   const PREFIX = 'sajDO-';
 
+  self.sortBy = 'name';
+
   self.init = () => {
     database.getList().then((data) => {
       self.appList = data;
