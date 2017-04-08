@@ -6,6 +6,7 @@ app.controller('DashboardCtrl', ['$scope', 'database', function($scope, database
   self.filters = {
     'availability' : {}
   };
+  self.filterFlags = {};
 
   self.init = () => {
     database.getList().then((data) => {
@@ -62,14 +63,16 @@ app.controller('DashboardCtrl', ['$scope', 'database', function($scope, database
     }
   };
 
-  // reset Position filter dropdown when unchecked
+  // reset filter dropdown when its corresponding checkbox is unchecked
   $scope.$watch(
     () => {
-      return self.positionChecked;
+      return self.filterFlags;
     },
     (newVal, oldVal) => {
-      if (!newVal) {
-        delete self.filters.position;
+      for (var prop in newVal) {
+        if (!newVal[prop]) {
+          delete self.filters[prop];
+        }
       }
     },
     true
