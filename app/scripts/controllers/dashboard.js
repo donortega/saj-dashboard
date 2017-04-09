@@ -3,10 +3,10 @@ app.controller('DashboardCtrl', ['$scope', 'database', function($scope, database
   const PREFIX = 'sajDO-';
 
   self.sortBy = 'name';
-  self.filters = {
+  self.filters = {};
+  self.filterFlags = {
     'availability' : {}
   };
-  self.filterFlags = {};
 
   self.init = () => {
     database.getList().then((data) => {
@@ -63,6 +63,29 @@ app.controller('DashboardCtrl', ['$scope', 'database', function($scope, database
     }
   };
 
+  self.availabilityFilter = (val, index, arr) => {
+    if (angular.equals(self.filterFlags.availability, {})) {
+      // no availabilty checkboxes are checked
+      return true;
+    } else {
+      var result = [];
+      for (var day in self.filterFlags.availability) {
+        var resultDay = false;
+        if (val.availability[day] > 0) {
+          resultDay = true;
+        }
+        result.push(resultDay);
+      }
+
+      // are all checked Availability checkboxes satisfied
+      var filterResult = result.find((val) => {
+        return val === false;
+      });
+      // if any Availability days are not met, filterResult will not be undefined
+      return filterResult === undefined;
+    }
+  };
+
   // reset filter dropdown when its corresponding checkbox is unchecked
   $scope.$watch(
     () => {
@@ -72,6 +95,12 @@ app.controller('DashboardCtrl', ['$scope', 'database', function($scope, database
       for (var prop in newVal) {
         if (!newVal[prop]) {
           delete self.filters[prop];
+        }
+      }
+
+      for (var day in newVal.availability) {
+        if (!newVal.availability[day]) {
+          delete self.filterFlags.availability[day];
         }
       }
     },

@@ -30,7 +30,7 @@
           <h4><strong>Sort By</strong></h4>
           <ul class="list-unstyled">
             <li><a href ng-click="ctrl.sortBy = 'name'" ng-class="{'link-disable' : ctrl.sortBy === 'name'}">Name</a></li>
-            <li><a href ng-click="ctrl.sortBy = 'applied'" ng-class="{'link-disable' : ctrl.sortBy === 'applied'}">Date Applied</a></li>
+            <li><a href ng-if="false" ng-click="ctrl.sortBy = 'applied'" ng-class="{'link-disable' : ctrl.sortBy === 'applied'}">Date Applied</a></li>
             <li><a href ng-click="ctrl.sortBy = 'position'" ng-class="{'link-disable' : ctrl.sortBy === 'position'}">Position Applied For</a></li>
             <li><a href ng-click="ctrl.sortBy = 'experience'" ng-class="{'link-disable' : ctrl.sortBy === 'experience'}">Experience</a></li>
             <li><a href ng-click="ctrl.sortBy = '-isFlagged'" ng-class="{'link-disable' : ctrl.sortBy === '-isFlagged'}">Flagged</a></li>
@@ -53,6 +53,7 @@
                 </label>
                 <select
                   class="form-control visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block width-auto"
+                  ng-cloak
                   ng-disabled="!ctrl.filterFlags.position"
                   ng-model="ctrl.filters.position"
                   ng-options="item.position as item.position for item in ctrl.appList | orderBy: 'position' | unique: 'position'">
@@ -63,25 +64,25 @@
               <p>Availability</p>
               <p>
                 <label class="checkbox-inline">
-                  <input type="checkbox" ng-click="ctrl.toggleFilter('availability', 'M');" ng-checked="ctrl.filters.availability.M"> M
+                  <input type="checkbox" ng-model="ctrl.filterFlags.availability.M;"> M
                 </label>
                 <label class="checkbox-inline">
-                  <input type="checkbox"> T
+                  <input type="checkbox" ng-model="ctrl.filterFlags.availability.T;"> T
                 </label>
                 <label class="checkbox-inline">
-                  <input type="checkbox"> W
+                  <input type="checkbox" ng-model="ctrl.filterFlags.availability.W;"> W
                 </label>
                 <label class="checkbox-inline">
-                  <input type="checkbox"> Th
+                  <input type="checkbox" ng-model="ctrl.filterFlags.availability.Th;"> Th
                 </label>
                 <label class="checkbox-inline">
-                  <input type="checkbox"> F
+                  <input type="checkbox" ng-model="ctrl.filterFlags.availability.F;"> F
                 </label>
                 <label class="checkbox-inline">
-                  <input type="checkbox"> S
+                  <input type="checkbox" ng-model="ctrl.filterFlags.availability.S;"> S
                 </label>
                 <label class="checkbox-inline">
-                  <input type="checkbox"> Su
+                  <input type="checkbox" ng-model="ctrl.filterFlags.availability.Su;"> Su
                 </label>
               </p>
             </li>
@@ -90,7 +91,7 @@
       </div>
 
       <ul class="list-group">
-        <li ng-repeat="item in ctrl.appList | orderBy: ctrl.sortBy | filter: ctrl.filters" class="list-group-item">
+        <li ng-repeat="item in filteredList = (ctrl.appList | orderBy: ctrl.sortBy | filter: ctrl.filters | filter: ctrl.availabilityFilter)" class="list-group-item">
           <div class="row">
             <div class="hidden-xs col-sm-1 col-md-1 col-lg-1 col-flag">
               <span ng-class="{'glyphicon glyphicon-flag' : true, 'text-danger' : item.isFlagged}" aria-hidden="true" ng-click="ctrl.toggleFlag(item.id);"></span>
@@ -195,6 +196,7 @@
           </div>
         </li>
       </ul>
+      <p ng-if="!filteredList.length"><em>Filter(s) returned <strong>0</strong> results</em></p>
     </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
