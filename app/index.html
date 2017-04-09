@@ -42,7 +42,7 @@
             <li>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="ctrl.filterFlags.name;"> Name
+                  <input type="checkbox" ng-model="ctrl.filterFlags.name"> Name
                 </label>
                 <input
                   class="form-control visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block width-auto"
@@ -62,7 +62,7 @@
             <li>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="ctrl.filterFlags.position;"> Position
+                  <input type="checkbox" ng-model="ctrl.filterFlags.position"> Position
                 </label>
                 <select
                   class="form-control visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block width-auto"
@@ -76,13 +76,14 @@
             <li>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="ctrl.filterFlags.experience;"> Experience
+                  <input type="checkbox" ng-model="ctrl.filterFlags.experience"> Experience
                 </label>
                 <input
+                  type="number"
                   class="form-control visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block width-auto"
                   ng-cloak
                   ng-disabled="!ctrl.filterFlags.experience"
-                  ng-model="ctrl.filters.experience"
+                  ng-model="ctrl.experienceInput"
                 / >
               </div>
             </li>
@@ -117,7 +118,7 @@
       </div>
 
       <ul class="list-group">
-        <li ng-repeat="item in filteredList = (ctrl.appList | orderBy: ctrl.sortBy | filter: ctrl.filters | filter: ctrl.availabilityFilter)" class="list-group-item">
+        <li ng-repeat="item in filteredList = (ctrl.appList | orderBy: ctrl.sortBy | filter: ctrl.filters | filter: ctrl.availabilityFilter | filter: ctrl.experienceFilter)" class="list-group-item">
           <div class="row">
             <div class="hidden-xs col-sm-1 col-md-1 col-lg-1 col-flag">
               <span ng-class="{'glyphicon glyphicon-flag' : true, 'text-danger' : item.isFlagged}" aria-hidden="true" ng-click="ctrl.toggleFlag(item.id);"></span>

@@ -66,7 +66,7 @@ app.controller('DashboardCtrl', ['$scope', 'database', function($scope, database
   // custom filter for Availability checkboxes
   self.availabilityFilter = (val, index, arr) => {
     if (angular.equals(self.filterFlags.availability, {})) {
-      // no availabilty checkboxes are checked
+      // no Availabilty checkboxes are checked
       return true;
     } else {
       var result = [];
@@ -87,7 +87,16 @@ app.controller('DashboardCtrl', ['$scope', 'database', function($scope, database
     }
   };
 
-  // reset filter dropdown when its corresponding checkbox is unchecked
+  self.experienceFilter = (val, index, arr) => {
+    if (!self.experienceInput) {
+      // Experience checkbox not checked
+      return true;
+    } else {
+      return val.experience >= self.experienceInput;
+    }
+  };
+
+  // reset filter input when its corresponding checkbox is unchecked
   $scope.$watch(
     () => {
       return self.filterFlags;
@@ -96,6 +105,10 @@ app.controller('DashboardCtrl', ['$scope', 'database', function($scope, database
       for (var prop in newVal) {
         if (!newVal[prop]) {
           delete self.filters[prop];
+
+          if (prop === 'experience') {
+            self.experienceInput = '';
+          }
         }
       }
 
