@@ -29,14 +29,11 @@ app.controller('DashboardCtrl', ['$scope', 'database', function($scope, database
           }
         }
       });
-
-      console.log('qqq APPLIST:', self.appList);
     });
   };
 
   // toggle flag
   self.toggleFlag = (id) => {
-    console.log('qqq toggleFlag:', id);
     // find id in appList array
     self.appList.forEach((val, index, arr) => {
       if (val.id === id) {
@@ -47,18 +44,12 @@ app.controller('DashboardCtrl', ['$scope', 'database', function($scope, database
   };
 
   // handle filters
-  self.toggleFilter = (filterName, filterSubName) => {
+  self.toggleFilter = (filterName) => {
     if (!filterSubName) {
       if (typeof self.filters[filterName] === 'undefined') {
         self.filters[filterName] = true;
       } else {
         delete self.filters[filterName];
-      }
-    } else {
-      if (typeof self.filters[filterName][filterSubName] === 'undefined') {
-        self.filters[filterName][filterSubName] = true;
-      } else {
-        delete self.filters[filterName][filterSubName];
       }
     }
   };
