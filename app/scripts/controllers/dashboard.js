@@ -63,6 +63,7 @@ app.controller('DashboardCtrl', ['$scope', 'database', function($scope, database
     }
   };
 
+  // custom filter for Availability checkboxes
   self.availabilityFilter = (val, index, arr) => {
     if (angular.equals(self.filterFlags.availability, {})) {
       // no availabilty checkboxes are checked

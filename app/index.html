@@ -42,6 +42,19 @@
             <li>
               <div class="checkbox">
                 <label>
+                  <input type="checkbox" ng-model="ctrl.filterFlags.name;"> Name
+                </label>
+                <input
+                  class="form-control visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block width-auto"
+                  ng-cloak
+                  ng-disabled="!ctrl.filterFlags.name"
+                  ng-model="ctrl.filters.name"
+                />
+              </div>
+            </li>
+            <li>
+              <div class="checkbox">
+                <label>
                   <input type="checkbox" ng-click="ctrl.toggleFilter('isFlagged');" ng-checked="ctrl.filters.isFlagged"> Flagged
                 </label>
               </div>
@@ -58,6 +71,19 @@
                   ng-model="ctrl.filters.position"
                   ng-options="item.position as item.position for item in ctrl.appList | orderBy: 'position' | unique: 'position'">
                 </select>
+              </div>
+            </li>
+            <li>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" ng-model="ctrl.filterFlags.experience;"> Experience
+                </label>
+                <input
+                  class="form-control visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block width-auto"
+                  ng-cloak
+                  ng-disabled="!ctrl.filterFlags.experience"
+                  ng-model="ctrl.filters.experience"
+                / >
               </div>
             </li>
             <li>
