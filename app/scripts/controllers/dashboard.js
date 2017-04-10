@@ -85,6 +85,7 @@ app.controller('DashboardCtrl', ['$scope', 'database', function($scope, database
     }
   };
 
+  // custom filter for Experience checkbox
   self.experienceFilter = (val, index, arr) => {
     if (!self.experienceInput) {
       // Experience checkbox not checked
