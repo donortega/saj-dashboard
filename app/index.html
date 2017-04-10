@@ -29,10 +29,10 @@
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
           <h4><strong>Sort By</strong></h4>
           <ul class="list-unstyled">
-            <li><a href ng-click="ctrl.sortBy = 'name'" ng-class="{'link-disable' : ctrl.sortBy === 'name'}">Name</a></li>
-            <li><a href ng-if="false" ng-click="ctrl.sortBy = 'applied'" ng-class="{'link-disable' : ctrl.sortBy === 'applied'}">Date Applied</a></li>
-            <li><a href ng-click="ctrl.sortBy = 'position'" ng-class="{'link-disable' : ctrl.sortBy === 'position'}">Position Applied For</a></li>
-            <li><a href ng-click="ctrl.sortBy = 'experience'" ng-class="{'link-disable' : ctrl.sortBy === 'experience'}">Experience</a></li>
+            <li><a href ng-click="ctrl.sortBy = '+name'" ng-class="{'link-disable' : ctrl.sortBy === '+name'}">Name</a></li>
+            <li><a href ng-click="ctrl.sortBy = '-appliedJS'" ng-class="{'link-disable' : ctrl.sortBy === '-appliedJS'}">Date Applied</a></li>
+            <li><a href ng-click="ctrl.sortBy = '+position'" ng-class="{'link-disable' : ctrl.sortBy === '+position'}">Position Applied For</a></li>
+            <li><a href ng-click="ctrl.sortBy = '+experience'" ng-class="{'link-disable' : ctrl.sortBy === '+experience'}">Experience</a></li>
             <li><a href ng-click="ctrl.sortBy = '-isFlagged'" ng-class="{'link-disable' : ctrl.sortBy === '-isFlagged'}">Flagged</a></li>
           </ul>
         </div>

@@ -2,7 +2,7 @@ app.controller('DashboardCtrl', ['$scope', 'database', function($scope, database
   var self = this;
   const PREFIX = 'sajDO-';
 
-  self.sortBy = 'name';
+  self.sortBy = '+name';
   self.filters = {};
   self.filterFlags = {
     'availability' : {}
@@ -28,6 +28,13 @@ app.controller('DashboardCtrl', ['$scope', 'database', function($scope, database
             val.isFlagged = false;
           }
         }
+
+        // convert date string to milliseconds to facilitate sorting
+        var dateArray = val.applied.split('/');
+        dateArray[0] = Number.parseFloat(dateArray[0]) - 1;
+        dateArray[1] = Number.parseInt(dateArray[1]);
+        dateArray[2] = Number.parseInt('20' + dateArray[2]);
+        val.appliedJS = new Date(dateArray[2], dateArray[0], dateArray[1]).getTime();
       });
     });
   };
