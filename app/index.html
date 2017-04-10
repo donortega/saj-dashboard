@@ -117,7 +117,7 @@
         </div>
       </div>
 
-      <ul class="list-group">
+      <ul ng-cloak class="list-group">
         <li ng-repeat="item in filteredList = (ctrl.appList | orderBy: ctrl.sortBy | filter: ctrl.filters | filter: ctrl.availabilityFilter | filter: ctrl.experienceFilter)" class="list-group-item">
           <div class="row">
             <div class="hidden-xs col-sm-1 col-md-1 col-lg-1 col-flag">
@@ -223,7 +223,7 @@
           </div>
         </li>
       </ul>
-      <p ng-if="!filteredList.length"><em>Filter(s) returned <strong>0</strong> results</em></p>
+      <p ng-cloak ng-if="!filteredList.length"><em>Filter(s) returned <strong>0</strong> results</em></p>
     </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
@@ -246,21 +246,6 @@
     <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="/bower_components/angular-filter/dist/angular-filter.js"></script>
     <!-- endbower -->
-    <!-- endbuild -->
-
-    <!-- build:js scripts/plugins.js -->
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/button.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/popover.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/carousel.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
     <!-- endbuild -->
 
     <!-- build:js scripts/main.js -->
