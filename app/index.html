@@ -42,6 +42,13 @@
             <li>
               <div class="checkbox">
                 <label>
+                  <input type="checkbox" ng-click="ctrl.toggleFilter('isFlagged');" ng-checked="ctrl.filters.isFlagged"> Flagged
+                </label>
+              </div>
+            </li>
+            <li>
+              <div class="checkbox">
+                <label>
                   <input type="checkbox" ng-model="ctrl.filterFlags.name"> Name
                 </label>
                 <input
@@ -50,13 +57,6 @@
                   ng-disabled="!ctrl.filterFlags.name"
                   ng-model="ctrl.filters.name"
                 />
-              </div>
-            </li>
-            <li>
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" ng-click="ctrl.toggleFilter('isFlagged');" ng-checked="ctrl.filters.isFlagged"> Flagged
-                </label>
               </div>
             </li>
             <li>
