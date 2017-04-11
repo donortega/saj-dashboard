@@ -1,0 +1,213 @@
+<!doctype html>
+<html class="no-js" ng-app="sajDonOrtega">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Don Ortega - snagajob</title>
+
+    
+
+    
+
+    <link rel="stylesheet" href="styles/main.css">
+
+    <script src="scripts/vendor/modernizr.js"></script>
+  </head>
+  <body ng-controller="DashboardCtrl as ctrl" ng-init="ctrl.init();">
+    <div class="container">
+      <h1>Job Applicant Database 1.0</h1>
+      <p class="lead">by Don Ortega</p>
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <h4><strong>Sort By</strong></h4>
+          <ul class="list-unstyled">
+            <li><a href ng-click="ctrl.sortBy = '+name'" ng-class="{'link-disable' : ctrl.sortBy === '+name'}">Name</a></li>
+            <li><a href ng-click="ctrl.sortBy = '-appliedJS'" ng-class="{'link-disable' : ctrl.sortBy === '-appliedJS'}">Date Applied</a></li>
+            <li><a href ng-click="ctrl.sortBy = '+position'" ng-class="{'link-disable' : ctrl.sortBy === '+position'}">Position Applied For</a></li>
+            <li><a href ng-click="ctrl.sortBy = '+experience'" ng-class="{'link-disable' : ctrl.sortBy === '+experience'}">Experience</a></li>
+            <li><a href ng-click="ctrl.sortBy = '-isFlagged'" ng-class="{'link-disable' : ctrl.sortBy === '-isFlagged'}">Flagged</a></li>
+          </ul>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+          <h4><strong>Filter</strong></h4>
+          <ul class="list-unstyled">
+            <li>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" ng-click="ctrl.toggleFilter('isFlagged');" ng-checked="ctrl.filters.isFlagged"> Flagged
+                </label>
+              </div>
+            </li>
+            <li>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" ng-model="ctrl.filterFlags.name"> Name
+                </label>
+                <input class="form-control visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block width-auto" ng-cloak ng-disabled="!ctrl.filterFlags.name" ng-model="ctrl.filters.name">
+              </div>
+            </li>
+            <li>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" ng-model="ctrl.filterFlags.position"> Position
+                </label>
+                <select class="form-control visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block width-auto" ng-cloak ng-disabled="!ctrl.filterFlags.position" ng-model="ctrl.filters.position" ng-options="item.position as item.position for item in ctrl.appList | orderBy: 'position' | unique: 'position'">
+                </select>
+              </div>
+            </li>
+            <li>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" ng-model="ctrl.filterFlags.experience"> Experience
+                </label>
+                <input type="number" class="form-control visible-xs-inline-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block width-auto" ng-cloak ng-disabled="!ctrl.filterFlags.experience" ng-model="ctrl.experienceInput">
+              </div>
+            </li>
+            <li>
+              <p>Availability</p>
+              <p>
+                <label class="checkbox-inline">
+                  <input type="checkbox" ng-model="ctrl.filterFlags.availability.M;"> M
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox" ng-model="ctrl.filterFlags.availability.T;"> T
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox" ng-model="ctrl.filterFlags.availability.W;"> W
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox" ng-model="ctrl.filterFlags.availability.Th;"> Th
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox" ng-model="ctrl.filterFlags.availability.F;"> F
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox" ng-model="ctrl.filterFlags.availability.S;"> S
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox" ng-model="ctrl.filterFlags.availability.Su;"> Su
+                </label>
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <ul ng-cloak class="list-group">
+        <li ng-repeat="item in filteredList = (ctrl.appList | orderBy: ctrl.sortBy | filter: ctrl.filters | filter: ctrl.availabilityFilter | filter: ctrl.experienceFilter)" class="list-group-item">
+          <div class="row">
+            <div class="hidden-xs col-sm-1 col-md-1 col-lg-1 col-flag">
+              <span ng-class="{'glyphicon glyphicon-flag' : true, 'text-danger' : item.isFlagged}" aria-hidden="true" ng-click="ctrl.toggleFlag(item.id);"></span>
+            </div>
+            <div class="col-xs-10 col-sm-4 col-md-4 col-lg-4">
+              <h4 ng-cloak><strong>{{ item.name }}</strong></h4>
+              <p>
+                <a href ng-cloak ng-click="item.isCollapsed = !item.isCollapsed">
+                  <span ng-if="item.isCollapsed">More</span>
+                  <span ng-if="!item.isCollapsed">Less</span> details
+                  <span ng-class="{'glyphicon' : true, 'glyphicon-triangle-bottom' : item.isCollapsed, 'glyphicon-triangle-top' : !item.isCollapsed}"></span></a>
+              </p>
+            </div>
+            <div class="col-xs-2 hidden-sm hidden-md hidden-lg col-flag">
+              <span ng-class="{'glyphicon glyphicon-flag' : true, 'text-danger' : item.isFlagged}" aria-hidden="true" ng-click="ctrl.toggleFlag(item.id);"></span>
+            </div>
+            <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+              <h4 ng-cloak><em>{{ item.position }}</em></h4>
+              <div ng-cloak uib-collapse="item.isCollapsed">
+                <ul class="list-unstyled">
+                  <li>
+                    <p>
+                      <strong>Date Applied:</strong>
+                      <span ng-if="item.applied">{{ item.applied }}</span>
+                      <span ng-if="!item.applied">Date is missing</span>
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      <strong>Experience:</strong>
+                      <span ng-if="item.experience">{{ item.experience }} year<span ng-if="item.experience !== 1">s</span>
+                      <span ng-if="!item.experience">No experience was given.</span>
+                    </span></p>
+                  </li>
+                  <li>
+                    <p><strong>Availability:</strong></p>
+                    <table ng-if="item.availability" class="table table-bordered visible-xs">
+                      <tr>
+                        <td class="active">Mon</td>
+                        <td ng-bind="item.availability.M"></td>
+                      </tr>
+                      <tr>
+                        <td class="active">Tue</td>
+                        <td ng-bind="item.availability.T"></td>
+                      </tr>
+                      <tr>
+                        <td class="active">Wed</td>
+                        <td ng-bind="item.availability.W"></td>
+                      </tr>
+                      <tr>
+                        <td class="active">Thu</td>
+                        <td ng-bind="item.availability.Th"></td>
+                      </tr>
+                      <tr>
+                        <td class="active">Fri</td>
+                        <td ng-bind="item.availability.F"></td>
+                      </tr>
+                      <tr>
+                        <td class="active">Sat</td>
+                        <td ng-bind="item.availability.S"></td>
+                      </tr>
+                      <tr>
+                        <td class="active">Sun</td>
+                        <td ng-bind="item.availability.Su"></td>
+                      </tr>
+                    </table>
+                    <table ng-if="item.availability" class="table table-bordered visible-sm visible-md visible-lg">
+                      <tr>
+                        <th class="active">Mon</th>
+                        <th class="active">Tue</th>
+                        <th class="active">Wed</th>
+                        <th class="active">Thu</th>
+                        <th class="active">Fri</th>
+                        <th class="active">Sat</th>
+                        <th class="active">Sun</th>
+                      </tr>
+                      <tr>
+                        <td ng-bind="item.availability.M"></td>
+                        <td ng-bind="item.availability.T"></td>
+                        <td ng-bind="item.availability.W"></td>
+                        <td ng-bind="item.availability.Th"></td>
+                        <td ng-bind="item.availability.F"></td>
+                        <td ng-bind="item.availability.S"></td>
+                        <td ng-bind="item.availability.Su"></td>
+                      </tr>
+                    </table>
+                    <p ng-if="!item.availability">No availability was given.</p>
+                  </li>
+                  <li>
+                    <p><strong>Questions:</strong></p>
+                    <ul ng-if="item.questions">
+                      <li ng-repeat="question in item.questions">
+                        <p><strong ng-bind="question.text"></strong></p>
+                        <p ng-bind="question.answer"></p>
+                      </li>
+                    </ul>
+                    <p ng-if="!item.questions">No questions were answered.</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <p ng-cloak ng-if="!filteredList.length"><em>Filter(s) returned <strong>0</strong> results</em></p>
+    </div>
+
+    
+    <script>!function(e,t,a,n,c,o){e.GoogleAnalyticsObject=n,e[n]||(e[n]=function(){(e[n].q=e[n].q||[]).push(arguments)}),e[n].l=+new Date,c=t.createElement(a),o=t.getElementsByTagName(a)[0],c.src="https://www.google-analytics.com/analytics.js",o.parentNode.insertBefore(c,o)}(window,document,"script","ga"),ga("create","UA-XXXXX-X"),ga("send","pageview")</script>
+
+    <script src="scripts/vendor.js"></script>
+
+    <script src="scripts/main.js"></script>
+  </body>
+</html>
