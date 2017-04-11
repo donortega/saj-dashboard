@@ -77,6 +77,10 @@ gulp.task('data', () => {
   return gulp.src('app/data/*')
     .pipe(gulp.dest('dist/data'));
 });
+gulp.task('htaccess', () => {
+  return gulp.src('app/.htaccess')
+    .pipe(gulp.dest('dist'));
+});
 
 gulp.task('images', () => {
   return gulp.src('app/images/**/*')
@@ -173,7 +177,7 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['lint', 'html', 'data', 'images', 'fonts', 'extras'], () => {
+gulp.task('build', ['lint', 'html', 'data', 'htaccess', 'images', 'fonts', 'extras'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
