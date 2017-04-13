@@ -52,12 +52,10 @@ app.controller('DashboardCtrl', ['$scope', 'database', function($scope, database
 
   // handle filters
   self.toggleFilter = (filterName) => {
-    if (!filterSubName) {
-      if (typeof self.filters[filterName] === 'undefined') {
-        self.filters[filterName] = true;
-      } else {
-        delete self.filters[filterName];
-      }
+    if (typeof self.filters[filterName] === 'undefined') {
+      self.filters[filterName] = true;
+    } else {
+      delete self.filters[filterName];
     }
   };
 
